@@ -8,7 +8,7 @@ WINNING_ENERGY = 10
 
 def run_single_game
   game = Game.new(STARTING_ENERGY, WINNING_ENERGY)
-  game.add_player Player::Random.new
+  game.add_player Player::Basic.new
   game.add_player Player::Random.new
   game.add_player Player::Random.new
   game.start_game

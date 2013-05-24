@@ -16,7 +16,14 @@ module Player
     end
 
     def choose_action
-      action_cards.sample
+      if in_danger?
+        action = :block
+      elsif !biggest_threat.nil? || !can_be_killed.nil?
+        action = :block
+      else
+        action = :charge
+      end
+      return action_cards.find { |card| card.type == action }
     end
 
     def choose_another_action(excluded_action)
