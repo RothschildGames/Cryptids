@@ -28,13 +28,12 @@ class Player
   end
 
   def die
-    game.players.remove(self)
-    gem.players.each{|p| p.player_died(self)}
+    game.players.each { |p| p.player_died(self) }
+    game.players.delete(self)
   end
 
   def player_died(player)
-    card = self.aim_cards.find{|c| c.target = player}
-    self.aim_cards.remove(card)
+    self.aim_cards.delete_if {|c| c.target == player}
   end
 
   def to_s

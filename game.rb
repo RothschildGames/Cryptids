@@ -100,10 +100,15 @@ class Game
   def resolve_end_turn
     winners = []
     players.each do |player|
-      winners << player if player.energy >= WINNING_ENERGY
       player.die if player.energy <= 0
     end
+    players.each do |player|
+      winners << player if player.energy >= WINNING_ENERGY
+    end
     game_over(winners) unless winners.empty?
+    if players.length == 1
+      game_over(players)
+    end
 
 
   end
