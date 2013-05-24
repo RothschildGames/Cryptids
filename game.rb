@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :players, :aim_cards, :action_cards
+  attr_accessor :players, :aim_cards, :action_cards, :winners
 
   def initialize(starting_energy, winning_energy)
     @players = []
@@ -9,6 +9,7 @@ class Game
     @game_over_flag = false
     @aim_cards = {}
     @action_cards = {}
+    @winners = []
   end
 
   def add_player(player)
@@ -113,6 +114,7 @@ class Game
     if winners.nil?
       puts "Everyone lost at turn number #{@turn}"
     else
+      @winners = winners
       puts "Winners: #{winners.map(&:name)} at turn number #{@turn}"
     end
   end

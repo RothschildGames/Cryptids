@@ -6,6 +6,10 @@ module Player
       @action_cards = []
     end
 
+    def opponents
+      game.players.reject { |player| player == self }
+    end
+
     def aim_cards
       aim_cards = []
       game.players.each do |other|

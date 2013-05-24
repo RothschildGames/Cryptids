@@ -32,3 +32,5 @@
 * If everyone are blocking, you gain 1E.
 * If everyone are attacking, you are immune to damage this turn.
 * If everyone are charging, you gain energy equals to the number of players. Opponents receive none.
+* Whenever an opponent dies you gain 1E.
+* At beginning of game choose target opponent, if he dies, you lose 5E. If he wins, you gain 5E.
