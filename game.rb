@@ -27,12 +27,12 @@ class Game
 
   def add_player(player)
     player.game = self
-    self.players << player
-    player.name = "#Player #{players.length}"
+    @players << player
+    player.name = "#Player #{@players.length}"
   end
 
   def start_game
-    players.each do |player|
+    @players.each do |player|
       player.create_hand
     end
   end
@@ -48,7 +48,7 @@ class Game
     attackers = {}
     under_attack = {}
 
-    players.each do |player|
+    @players.each do |player|
       aim_card = player.choose_aim
       aim_cards[player] = aim_card
 
@@ -108,18 +108,20 @@ class Game
       @players = @players - losers
     end
 
-    if players.length == 1
-      winners = players
-    elsif players.length == 0
+    if @players.empty?
       game_over(nil)
     else
-      winners = []
-    end
+      if @players.length == 1
+        winners = players
+      else
+        winners = []
+      end
 
-    players.each do |player|
-      winners << player if player.energy >= WINNING_ENERGY
+      @players.each do |player|
+        winners << player if player.energy >= WINNING_ENERGY
+      end
+      game_over(winners) unless winners.empty?
     end
-    game_over(winners) unless winners.empty?
 
   end
 
@@ -141,6 +143,8 @@ game = Game.new()
 NUMBER_OF_PLAYERS.times { game.add_player Player.new }
 game.start_game
 
-500.times { game.turn; break if game.game_ended? }
+while not game.game_ended? do
+  game.turn
+end
 
 puts game
