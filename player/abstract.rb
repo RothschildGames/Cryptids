@@ -30,7 +30,7 @@ module Player
       raise '`choose_action` to be implemented by subclass'
     end
 
-    def choose_another_action(current_action)
+    def choose_another_action(excluded_action)
       raise '`choose_another_action` to be implemented by subclass'
     end
 
@@ -40,6 +40,10 @@ module Player
 
     def to_s
       "#@name (#@energy)"
+    end
+
+    def actions_other_than(action)
+      (action_cards.reject { |card| card == action } << :do_nothing)
     end
 
   end

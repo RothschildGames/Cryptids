@@ -9,8 +9,8 @@ module Player
       action_cards.sample
     end
 
-    def choose_another_action(other_than)
-      (action_cards.reject { |card| card == other_than } << nil).sample
+    def choose_another_action(excluded_action)
+      actions_other_than(excluded_action).sample
     end
 
   end
