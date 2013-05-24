@@ -78,7 +78,15 @@ class Game
       target = aim_cards[player].target
       target_action = action_cards[target].type
       action = action_cards[player].type
-      puts "#{player} plays #{action} on #{target}"
+
+      case(action)
+        when :attack
+          puts "#{player} attacks #{target}"
+        when :block
+          puts "#{player} defends"
+        when :charge
+          puts "#{player} charges (#{player.energy + 1})"
+      end
 
       case(action)
         when :attack
@@ -86,7 +94,7 @@ class Game
             when :attack
               target.energy -= 1
               player.energy -= 1
-            when :defense
+            when :block
               player.energy -= 1
             when :charge
               target.energy -= 1
@@ -129,6 +137,7 @@ class Game
 
 end
 
+
 game = Game.new()
 NUMBER_OF_PLAYERS.times { game.add_player Player.new }
 game.start_game
@@ -136,5 +145,3 @@ game.start_game
 while not game.game_ended? do
   game.turn
 end
-
-puts game
