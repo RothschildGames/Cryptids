@@ -8,9 +8,11 @@ WINNING_ENERGY = 10
 class Game
   attr_accessor :players, :aim_cards, :action_cards
 
-  def initialize
+  def initialize(starting_energy, winning_energy)
     @players = []
     @turn = 0
+    @starting_energy = starting_energy
+    @winning_energy = winning_energy
     @game_over_flag = false
     @aim_cards = {}
     @action_cards = {}
@@ -19,6 +21,7 @@ class Game
   def add_player(player)
     player.game = self
     @players << player
+    player.energy = @starting_energy
     player.name = "#Player #{@players.length}"
   end
 
@@ -41,7 +44,7 @@ class Game
     @turn += 1
     aim_cards.clear
     action_cards.clear
-    puts "--- TURN #{@turn} ---"
+    puts "\n--- TURN #{@turn} ---"
   end
 
   def choose_cards
@@ -68,7 +71,7 @@ class Game
       target_action = action_cards[target].type
       action = action_cards[player].type
 
-      case(action)
+      case action
         when :attack
           puts "#{player} attacks #{target}"
         when :block
@@ -77,9 +80,9 @@ class Game
           puts "#{player} charges (#{player.energy + 1})"
       end
 
-      case(action)
+      case action
         when :attack
-          case(target_action)
+          case target_action
             when :attack
               target.energy -= 1
               player.energy -= 1
@@ -100,7 +103,7 @@ class Game
       player.die if player.energy <= 0
     end
     players.each do |player|
-      winners << player if player.energy >= WINNING_ENERGY
+      winners << player if player.energy >= @winning_energy
     end
     game_over(winners) unless winners.empty?
     if players.length == 0
@@ -127,7 +130,7 @@ class Game
 end
 
 
-game = Game.new()
+game = Game.new(STARTING_ENERGY, WINNING_ENERGY)
 game.add_player RandomPlayer.new
 game.add_player RandomPlayer.new
 game.add_player RandomPlayer.new

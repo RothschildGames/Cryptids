@@ -2,7 +2,6 @@ class Player
   attr_accessor :energy, :race, :game, :aim_cards, :action_cards, :name
 
   def initialize
-    @energy = STARTING_ENERGY
     @action_cards = []
   end
 
