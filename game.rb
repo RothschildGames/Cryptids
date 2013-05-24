@@ -1,20 +1,9 @@
 require './card'
 require './player'
+require './race'
 
-
-NUMBER_OF_PLAYERS = 3
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
-
-class Turn
-  PHASES = [
-      :choose,
-      :reveal_aim,
-      :change_action,
-      :reveal_action,
-      :cleanup
-  ]
-end
 
 class Game
   attr_accessor :players, :aim_cards, :action_cards
@@ -64,13 +53,13 @@ class Game
 
 
   def show_aim_cards
-    aim_cards.each do |_, card|
-      card.face_up!
-    end
+    aim_cards.values.each(&:face_up!)
   end
 
   def change_actions
-
+    players.each do |player|
+      player.change_action(action_cards[player])
+    end
   end
 
   def resolve_actions
@@ -139,7 +128,9 @@ end
 
 
 game = Game.new()
-NUMBER_OF_PLAYERS.times { game.add_player Player.new }
+game.add_player RandomPlayer.new
+game.add_player RandomPlayer.new
+game.add_player RandomPlayer.new
 game.start_game
 
 while not game.game_ended? do

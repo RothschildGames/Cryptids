@@ -20,15 +20,18 @@ class Player
     ActionCard::TYPES.each do |type|
       action_cards << ActionCard.new(self, type)
     end
-    #race.extend_hand(self)
   end
 
   def choose_aim
-    aim_cards.sample
+    raise '`choose_aim` to be implemented by subclass'
   end
 
   def choose_action
-    action_cards.sample
+    raise '`choose_action` to be implemented by subclass'
+  end
+
+  def change_action(current_action)
+    raise '`change_action` to be implemented by subclass'
   end
 
   def die
@@ -41,6 +44,18 @@ class Player
 
 end
 
-class Race
+class RandomPlayer < Player
+
+  def choose_aim
+    aim_cards.sample
+  end
+
+  def choose_action
+    action_cards.sample
+  end
+
+  def change_action(current_action)
+    #action_cards.sample
+  end
 
 end
