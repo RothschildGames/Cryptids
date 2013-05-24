@@ -29,12 +29,12 @@ class Game
 
   def add_player(player)
     player.game = self
-    self.players << player
-    player.name = "#Player #{players.length}"
+    @players << player
+    player.name = "#Player #{@players.length}"
   end
 
   def start_game
-    players.each do |player|
+    @players.each do |player|
       player.create_hand
     end
   end
@@ -106,16 +106,21 @@ class Game
       winners << player if player.energy >= WINNING_ENERGY
     end
     game_over(winners) unless winners.empty?
+    if players.length == 0
+      game_over(nil)
+    end
     if players.length == 1
       game_over(players)
     end
-
-
   end
 
   def game_over(winners)
     @game_over_flag = true
-    puts "Winners: #{winners.map(&:name)} at turn number #{@turn}"
+    if winners.nil?
+      puts "Everyone lost at turn number #{@turn}"
+    else
+      puts "Winners: #{winners.map(&:name)} at turn number #{@turn}"
+    end
   end
 
   def game_ended?
@@ -128,6 +133,8 @@ game = Game.new()
 NUMBER_OF_PLAYERS.times { game.add_player Player.new }
 game.start_game
 
-500.times { game.turn; break if game.game_ended? }
+while not game.game_ended? do
+  game.turn
+end
 
 puts game
