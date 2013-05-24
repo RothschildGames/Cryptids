@@ -32,4 +32,16 @@ class ActionCard < Card
     super(owner)
     @type = type
   end
+
+  def attack?
+    @type == :attack
+  end
+
+  def defense?
+    @type == :defense
+  end
+
+  def charge?
+    @type == :charge
+  end
 end

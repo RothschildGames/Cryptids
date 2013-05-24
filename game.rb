@@ -1,6 +1,7 @@
 require './card'
 require './player'
 
+
 NUMBER_OF_PLAYERS = 3
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
@@ -20,11 +21,14 @@ class Game
 
   def initialize
     @players = []
+    @turn = 0
+    @game_over_flag = false
   end
 
   def add_player(player)
     player.game = self
     self.players << player
+    player.name = "#Player #{players.length}"
   end
 
   def start_game
@@ -34,23 +38,88 @@ class Game
   end
 
   def turn
-    aim_cards = []
-    action_cards = []
+    @turn += 1
+
+    aim_cards = {}
+    action_cards = {}
+
+    defenders = {}
+    chargers = {}
+    attackers = {}
+    under_attack = {}
 
     players.each do |player|
-      aim_cards << player.choose_aim
-      action_cards << player.choose_action
+      aim_card = player.choose_aim
+      aim_cards[player] = aim_card
+
+      action_card = player.choose_action
+      action_cards[player] = action_card
+
+      if action_card.attack?
+        attackers[player] = aim_card.target
+        under_attack[aim_card.target] = player
+      elsif action_card.defense?
+        defenders[player] = true
+      elsif action_card.charge?
+        chargers[player] = true
+      end
     end
 
-    aim_cards.each do |card|
+    aim_cards.each do |_, card|
       card.face_up!
     end
+
+    action_cards.each do |player, action_card|
+
+      if action_card.attack?
+        target = aim_cards[player].target
+        if !defenders[target].nil?
+          player.energy -= 1
+        elsif !chargers[target].nil?
+          # do nothing for me
+        elsif !attackers[target].nil?
+          player.energy -= 1
+        end
+
+      elsif action_card.defense?
+        if !under_attack[player].nil?
+          # do nothing for me
+        else
+          # do nothing for me
+        end
+
+      elsif action_card.charge?
+        if !under_attack[player].nil?
+          player.energy -= 1
+        else
+          player.energy += 1
+        end
+      end
+
+    end
+
+    winners = []
+    players.each do |player|
+      winners << player if player.energy >= WINNING_ENERGY
+    end
+    game_over(winners) unless winners.empty?
+
+  end
+
+  def game_over(winners)
+    @game_over_flag = true
+    puts "Winners: #{winners.map(&:name)} at turn number #{@turn}"
+  end
+
+  def game_ended?
+    @game_over_flag
   end
 end
 
 game = Game.new()
 NUMBER_OF_PLAYERS.times { game.add_player Player.new }
 game.start_game
-game.turn
+
+500.times { game.turn; break if game.game_ended? }
 
 puts game
