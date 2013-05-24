@@ -101,8 +101,11 @@ class Game
     winners = []
     players.each do |player|
       winners << player if player.energy >= WINNING_ENERGY
+      player.die if player.energy <= 0
     end
     game_over(winners) unless winners.empty?
+
+
   end
 
   def game_over(winners)

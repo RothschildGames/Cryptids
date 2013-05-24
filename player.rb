@@ -27,6 +27,16 @@ class Player
     action_cards.sample
   end
 
+  def die
+    game.players.remove(self)
+    gem.players.each{|p| p.player_died(self)}
+  end
+
+  def player_died(player)
+    card = self.aim_cards.find{|c| c.target = player}
+    self.aim_cards.remove(card)
+  end
+
   def to_s
     "#@name (#@energy)"
   end
