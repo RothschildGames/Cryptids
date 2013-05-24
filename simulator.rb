@@ -80,7 +80,7 @@ class Game
     end
 
     aim_cards.each do |card|
-      aim_cards.face_up!
+      card.face_up!
     end
   end
 end
@@ -100,7 +100,7 @@ class Player
         aim_cards << AimCard.new(self, other)
       end
     end
-    ActionCard.TYPES.each do |type|
+    ActionCard::TYPES.each do |type|
       action_cards << ActionCard.new(self, type)
     end
     #race.extend_hand(self)
