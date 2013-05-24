@@ -17,12 +17,14 @@ class Turn
 end
 
 class Game
-  attr_accessor :players
+  attr_accessor :players, :aim_cards, :action_cards
 
   def initialize
     @players = []
     @turn = 0
     @game_over_flag = false
+    @aim_cards = {}
+    @action_cards = {}
   end
 
   def add_player(player)
@@ -38,72 +40,69 @@ class Game
   end
 
   def turn
+    start_turn
+    choose_cards
+    show_aim_cards
+    change_actions
+    resolve_actions
+    resolve_end_turn
+  end
+
+  def start_turn
     @turn += 1
+    aim_cards.clear
+    action_cards.clear
+    puts "--- TURN #{@turn} ---"
+  end
 
-    aim_cards = {}
-    action_cards = {}
-
-    defenders = {}
-    chargers = {}
-    attackers = {}
-    under_attack = {}
-
+  def choose_cards
     players.each do |player|
-      aim_card = player.choose_aim
-      aim_cards[player] = aim_card
-
-      action_card = player.choose_action
-      action_cards[player] = action_card
-
-      if action_card.attack?
-        attackers[player] = aim_card.target
-        under_attack[aim_card.target] = player
-      elsif action_card.defense?
-        defenders[player] = true
-      elsif action_card.charge?
-        chargers[player] = true
-      end
+      aim_cards[player] = player.choose_aim
+      action_cards[player] = player.choose_action
     end
+  end
 
+
+  def show_aim_cards
     aim_cards.each do |_, card|
       card.face_up!
     end
+  end
 
-    action_cards.each do |player, action_card|
+  def change_actions
 
-      if action_card.attack?
-        target = aim_cards[player].target
-        if !defenders[target].nil?
-          player.energy -= 1
-        elsif !chargers[target].nil?
-          # do nothing for me
-        elsif !attackers[target].nil?
-          player.energy -= 1
-        end
+  end
 
-      elsif action_card.defense?
-        if !under_attack[player].nil?
-          # do nothing for me
-        else
-          # do nothing for me
-        end
+  def resolve_actions
+    players.each do |player|
+      target = aim_cards[player].target
+      target_action = action_cards[target].type
+      action = action_cards[player].type
+      puts "#{player} plays #{action} on #{target}"
 
-      elsif action_card.charge?
-        if !under_attack[player].nil?
-          player.energy -= 1
-        else
+      case(action)
+        when :attack
+          case(target_action)
+            when :attack
+              target.energy -= 1
+              player.energy -= 1
+            when :defense
+              player.energy -= 1
+            when :charge
+              target.energy -= 1
+          end
+        when :charge
           player.energy += 1
-        end
       end
-
     end
+  end
 
+  def resolve_end_turn
     winners = []
     players.each do |player|
       winners << player if player.energy >= WINNING_ENERGY
     end
     game_over(winners) unless winners.empty?
-
   end
 
   def game_over(winners)
@@ -114,6 +113,7 @@ class Game
   def game_ended?
     @game_over_flag
   end
+
 end
 
 game = Game.new()

@@ -27,6 +27,10 @@ class Player
     action_cards.sample
   end
 
+  def to_s
+    "#@name (#@energy)"
+  end
+
 end
 
 class Race
