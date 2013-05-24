@@ -1,10 +1,3 @@
-require './card'
-require './player'
-require './race'
-
-STARTING_ENERGY = 5
-WINNING_ENERGY = 10
-
 class Game
   attr_accessor :players, :aim_cards, :action_cards
 
@@ -128,15 +121,4 @@ class Game
     @game_over_flag
   end
 
-end
-
-
-game = Game.new(STARTING_ENERGY, WINNING_ENERGY)
-game.add_player RandomPlayer.new
-game.add_player RandomPlayer.new
-game.add_player RandomPlayer.new
-game.start_game
-
-while not game.game_ended? do
-  game.turn
 end
