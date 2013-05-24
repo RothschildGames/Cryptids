@@ -8,9 +8,10 @@ WINNING_ENERGY = 10
 
 def run_single_game
   game = Game.new(STARTING_ENERGY, WINNING_ENERGY)
-  game.add_player Player::Basic.new
   game.add_player Player::Random.new
   game.add_player Player::Random.new
+  game.add_player Player::Random.new
+  game.logs = false
   game.start_game
 
   while not game.game_ended? do
@@ -23,10 +24,8 @@ end
 def run_multiple_games(games = 1000)
   winners = []
   games.times do |i|
-    puts "\nStarting game number #{i+1}\n"
     result_game = run_single_game
     winners << result_game.winners
-    puts "\nEnding game number #{i+1}"
   end
 
   winners.flatten!
@@ -36,7 +35,7 @@ def run_multiple_games(games = 1000)
     hash
   end
   puts "\nVictories by players after #{games} games:"
-  puts victories
+  puts victories.sort.to_s
 end
 
 run_multiple_games

@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :players, :aim_cards, :action_cards, :winners
+  attr_accessor :players, :aim_cards, :action_cards, :winners, :logs
 
   def initialize(starting_energy, winning_energy)
     @players = []
@@ -10,13 +10,14 @@ class Game
     @aim_cards = {}
     @action_cards = {}
     @winners = []
+    @logs = true
   end
 
   def add_player(player)
     player.game = self
     @players << player
     player.energy = @starting_energy
-    player.name = "#Player #{@players.length}"
+    player.name = "Player #{@players.length}"
   end
 
   def start_game
@@ -38,7 +39,7 @@ class Game
     @turn += 1
     aim_cards.clear
     action_cards.clear
-    puts "\n--- TURN #{@turn} ---"
+    puts "\n--- TURN #{@turn} ---" if logs
   end
 
   def choose_cards
@@ -66,13 +67,15 @@ class Game
       target_action = action_cards[target].type
       action = action_cards[player].type
 
-      case action
-        when :attack
-          puts "#{player} attacks #{target}"
-        when :block
-          puts "#{player} defends"
-        when :charge
-          puts "#{player} charges (#{player.energy + 1})"
+      if logs
+        case action
+          when :attack
+            puts "#{player} attacks #{target}"
+          when :block
+            puts "#{player} defends"
+          when :charge
+            puts "#{player} charges (#{player.energy + 1})"
+        end
       end
 
       case action
@@ -112,10 +115,10 @@ class Game
   def game_over(winners)
     @game_over_flag = true
     if winners.nil?
-      puts "Everyone lost at turn number #{@turn}"
+      puts "Everyone lost at turn number #{@turn}" if logs
     else
       @winners = winners
-      puts "Winners: #{winners.map(&:name)} at turn number #{@turn}"
+      puts "Winners: #{winners.map(&:name)} at turn number #{@turn}" if logs
     end
   end
 
