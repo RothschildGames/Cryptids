@@ -28,3 +28,7 @@
 * If attacking while no one targets you - lose 1E
 * Extra action cards - Attack 1 left + Attack 1 right (for more area of attack)
 * Gain 1E if attack and block
+* Gain 2E after a successful charge. Lose 2E if you were attacked.
+* If everyone are blocking, you gain 1E.
+* If everyone are attacking, you are immune to damage this turn.
+* If everyone are charging, you gain energy equals to the number of players. Opponents receive none.
