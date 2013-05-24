@@ -61,7 +61,8 @@ class Game
 
   def change_actions
     players.each do |player|
-      player.change_action(action_cards[player])
+      new_action = player.choose_another_action(action_cards[player])
+      action_cards[player] = new_action if !new_action.nil?
     end
   end
 

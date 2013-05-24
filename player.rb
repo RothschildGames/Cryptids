@@ -29,8 +29,8 @@ class Player
     raise '`choose_action` to be implemented by subclass'
   end
 
-  def change_action(current_action)
-    raise '`change_action` to be implemented by subclass'
+  def choose_another_action(current_action)
+    raise '`choose_another_action` to be implemented by subclass'
   end
 
   def die
@@ -53,8 +53,8 @@ class RandomPlayer < Player
     action_cards.sample
   end
 
-  def change_action(current_action)
-    #action_cards.sample
+  def choose_another_action(other_than)
+    (action_cards.reject { |card| card == other_than } << nil).sample
   end
 
 end
