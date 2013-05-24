@@ -98,7 +98,24 @@ class Game
 
     end
 
-    winners = []
+    losers = []
+    @players.each do |player|
+      losers << player if player.energy <= 0
+    end
+
+    unless losers.empty?
+      puts "Losers: #{losers.map(&:name)} at turn number #{@turn}"
+      @players = @players - losers
+    end
+
+    if players.length == 1
+      winners = players
+    elsif players.length == 0
+      game_over(nil)
+    else
+      winners = []
+    end
+
     players.each do |player|
       winners << player if player.energy >= WINNING_ENERGY
     end
@@ -108,7 +125,11 @@ class Game
 
   def game_over(winners)
     @game_over_flag = true
-    puts "Winners: #{winners.map(&:name)} at turn number #{@turn}"
+    if winners.nil?
+      puts "Everyone lost at turn number #{@turn}"
+    else
+      puts "Winners: #{winners.map(&:name)} at turn number #{@turn}"
+    end
   end
 
   def game_ended?

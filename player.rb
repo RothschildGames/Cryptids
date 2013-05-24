@@ -3,16 +3,20 @@ class Player
 
   def initialize
     @energy = STARTING_ENERGY
-    @aim_cards = []
     @action_cards = []
   end
 
-  def create_hand
+  def aim_cards
+    aim_cards = []
     game.players.each do |other|
       if other != self
         aim_cards << AimCard.new(self, other)
       end
     end
+    aim_cards
+  end
+
+  def create_hand
     ActionCard::TYPES.each do |type|
       action_cards << ActionCard.new(self, type)
     end
