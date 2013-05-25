@@ -1,5 +1,7 @@
 class Game
-  attr_accessor :players, :aim_cards, :action_cards, :winners, :logs
+  include Observable
+
+  attr_accessor :players, :aim_cards, :action_cards, :winners
 
   def initialize(starting_energy, winning_energy)
     @players = []
@@ -10,7 +12,6 @@ class Game
     @aim_cards = {}
     @action_cards = {}
     @winners = []
-    @logs = true
   end
 
   def add_player(player)
@@ -24,6 +25,7 @@ class Game
     @players.each do |player|
       player.create_hand
     end
+    notify(:game_start)
   end
 
   def turn
@@ -39,7 +41,7 @@ class Game
     @turn += 1
     aim_cards.clear
     action_cards.clear
-    puts "\n--- TURN #{@turn} ---" if logs
+    notify(:turn_start, :turn => @turn)
   end
 
   def choose_cards
@@ -48,7 +50,6 @@ class Game
       action_cards[player] = player.choose_action
     end
   end
-
 
   def show_aim_cards
     aim_cards.values.each(&:face_up!)
@@ -67,16 +68,7 @@ class Game
       target_action = action_cards[target].type
       action = action_cards[player].type
 
-      if logs
-        case action
-          when :attack
-            puts "#{player} attacks #{target}"
-          when :block
-            puts "#{player} defends"
-          when :charge
-            puts "#{player} charges (#{player.energy + 1})"
-        end
-      end
+      notify(:player_action, :player => player, :action => action, :target => target)
 
       case action
         when :attack
@@ -104,26 +96,25 @@ class Game
       winners << player if player.energy >= @winning_energy
     end
     game_over(winners) unless winners.empty?
-    if players.length == 0
-      game_over(nil)
-    end
-    if players.length == 1
+
+    if players.length <= 1
       game_over(players)
     end
   end
 
   def game_over(winners)
     @game_over_flag = true
-    if winners.nil?
-      puts "Everyone lost at turn number #{@turn}" if logs
-    else
-      @winners = winners
-      puts "Winners: #{winners.map(&:name)} at turn number #{@turn}" if logs
-    end
+    @winners = winners
+    notify(:game_end, :winners => winners)
   end
 
   def game_ended?
     @game_over_flag
+  end
+
+  def notify(event, data = nil)
+    changed
+    notify_observers(event, data)
   end
 
 end

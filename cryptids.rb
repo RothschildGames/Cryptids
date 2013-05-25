@@ -1,4 +1,5 @@
 Dir['./player/*.rb'].each {|file| require file }
+require 'observer'
 require './card'
 require './race'
 require './game'
@@ -8,10 +9,11 @@ WINNING_ENERGY = 10
 
 def run_single_game
   game = Game.new(STARTING_ENERGY, WINNING_ENERGY)
+  GameLogger.new(game)
+
   game.add_player Player::Random.new
   game.add_player Player::Random.new
   game.add_player Player::Random.new
-  game.logs = false
   game.start_game
 
   while not game.game_ended? do
