@@ -111,4 +111,10 @@ class Game
     notify_observers(event, data)
   end
 
+  def win_type
+    return :victory_points if players.count > 1
+    return :last_man_standing if players.count == 1
+    :no_winner
+  end
+
 end
