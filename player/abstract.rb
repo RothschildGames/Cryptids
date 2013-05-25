@@ -2,7 +2,9 @@ module Player
   class Player::Abstract
     attr_accessor :energy, :race, :game, :aim_cards, :action_cards, :name
 
-    def initialize
+    def initialize(name, race = nil)
+      @name = name
+      @race = race
       @action_cards = []
     end
 
@@ -36,6 +38,10 @@ module Player
 
     def choose_another_action(excluded_action)
       raise '`choose_another_action` to be implemented by subclass'
+    end
+
+    def dead?
+      @energy <= 0
     end
 
     def die

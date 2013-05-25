@@ -12,9 +12,9 @@ def run_single_game
   game = Game.new(STARTING_ENERGY, WINNING_ENERGY)
   GameLogger.new(game) if SHOULD_LOG
 
-  game.add_player Player::Random.new
-  game.add_player Player::Random.new
-  game.add_player Player::Random.new
+  game.add_player Player::Random.new('Player 1')
+  game.add_player Player::Random.new('Player 2')
+  game.add_player Player::Random.new('Player 3')
   game.start_game
 
   while not game.game_ended? do
@@ -45,8 +45,7 @@ def run_multiple_games(games = 1000)
 
   puts "Played #{games} games"
   puts "Game ended at turn #{average_turn} averagely"
-  puts "Victory count by players:"
-  puts victories.sort.to_s
+  puts "Victory count by players: #{victories.sort.to_s}"
 end
 
 run_multiple_games

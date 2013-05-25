@@ -16,15 +16,12 @@ class Game
 
   def add_player(player)
     player.game = self
-    @players << player
     player.energy = @starting_energy
-    player.name = "Player #{@players.length}"
+    @players << player
   end
 
   def start_game
-    @players.each do |player|
-      player.create_hand
-    end
+    @players.each(&:create_hand)
     notify(:game_start)
   end
 
@@ -90,16 +87,13 @@ class Game
   def resolve_end_turn
     winners = []
     players.each do |player|
-      player.die if player.energy <= 0
+      player.die if player.dead?
     end
     players.each do |player|
       winners << player if player.energy >= @winning_energy
     end
     game_over(winners) unless winners.empty?
-
-    if players.length <= 1
-      game_over(players)
-    end
+    game_over(players) if players.length <= 1
   end
 
   def game_over(winners)
