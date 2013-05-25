@@ -1,6 +1,11 @@
 class Array
+
+  def mode_array
+    uniq.sort_by {|i| grep(i).length }
+  end
+
   def mode
-    sort_by {|i| grep(i).length }.last
+    mode_array.last
   end
 
   def percent_of(i)

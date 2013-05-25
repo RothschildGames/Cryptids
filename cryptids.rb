@@ -5,6 +5,7 @@ require './card'
 require './race'
 require './game'
 
+NUMBER_OF_PLAYERS = 3
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
 SHOULD_LOG = false
@@ -13,9 +14,9 @@ def run_single_game
   game = Game.new(STARTING_ENERGY, WINNING_ENERGY)
   GameLogger.new(game) if SHOULD_LOG
 
-  game.add_player Player::Random.new('Player 1')
-  game.add_player Player::Random.new('Player 2')
-  game.add_player Player::Random.new('Player 3')
+  NUMBER_OF_PLAYERS.times do |t|
+    game.add_player Player::Random.new("Player #{t}")
+  end
   game.start_game
 
   while not game.game_ended? do
@@ -46,9 +47,10 @@ def run_multiple_games(games = 1000)
     hash
   end
 
-  puts "Played #{games} games"
+  puts "Played #{games} games with #{NUMBER_OF_PLAYERS} players"
   puts "Game ended at turn #{average_turn} averagely"
   puts "Games mostly ended with a #{win_type.mode} (#{win_type.percent_of(win_type.mode)})"
+  puts "Then with #{win_type.mode_array[-2]} (#{win_type.percent_of(win_type.mode_array[-2])})"
   puts "Victory count by players: #{victories.sort.to_s}"
 end
 
