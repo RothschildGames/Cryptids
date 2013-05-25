@@ -1,11 +1,11 @@
 class Game
   include Observable
 
-  attr_accessor :players, :aim_cards, :action_cards, :winners
+  attr_accessor :players, :aim_cards, :action_cards, :winners, :turn_num
 
   def initialize(starting_energy, winning_energy)
     @players = []
-    @turn = 0
+    @turn_num = 0
     @starting_energy = starting_energy
     @winning_energy = winning_energy
     @game_over_flag = false
@@ -38,10 +38,10 @@ class Game
   end
 
   def start_turn
-    @turn += 1
+    @turn_num += 1
     aim_cards.clear
     action_cards.clear
-    notify(:turn_start, :turn => @turn)
+    notify(:turn_start, :turn => @turn_num)
   end
 
   def choose_cards

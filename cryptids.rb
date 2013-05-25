@@ -6,10 +6,11 @@ require './game'
 
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
+SHOULD_LOG = false
 
 def run_single_game
   game = Game.new(STARTING_ENERGY, WINNING_ENERGY)
-  GameLogger.new(game)
+  GameLogger.new(game) if SHOULD_LOG
 
   game.add_player Player::Random.new
   game.add_player Player::Random.new
@@ -25,10 +26,15 @@ end
 
 def run_multiple_games(games = 1000)
   winners = []
-  games.times do |i|
+  turns = []
+
+  games.times do
     result_game = run_single_game
     winners << result_game.winners
+    turns << result_game.turn_num
   end
+
+  average_turn = turns.reduce(:+).to_f / turns.length
 
   winners.flatten!
   victories = winners.inject({}) do |hash, player|
@@ -36,7 +42,10 @@ def run_multiple_games(games = 1000)
     hash[player.name] += 1
     hash
   end
-  puts "\nVictories by players after #{games} games:"
+
+  puts "Played #{games} games"
+  puts "Game ended at turn #{average_turn} averagely"
+  puts "Victory count by players:"
   puts victories.sort.to_s
 end
 
