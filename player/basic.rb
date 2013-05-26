@@ -1,3 +1,7 @@
+# I think the way we need to approch the selection of cards is by percentages or points of choosing cards
+# Like which cards is better right now than the rest of the cards.
+# That way when we start adding race powers, it can just add/subtract points from a specific strategy.
+# Also the choose other action is really hard to guess.
 module Player
   class Basic < Abstract
 
