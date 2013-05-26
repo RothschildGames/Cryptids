@@ -76,11 +76,20 @@ class Game
             when :block
               player.energy -= 1
             when :charge
-              target.energy -= 1 #(Maybe we need to -2 (because else this is a zero sum turn (+1,-1) ))
+              unless targeted_to_attack.include? player
+                target.energy -= 1 #(Maybe we need to -2 (because else this is a zero sum turn (+1,-1) ))
+              end
           end
         when :charge
           player.energy += 1
       end
+    end
+  end
+
+  def targeted_to_attack
+    action_cards.values.select(&:attack?).map do |action_card|
+      player = action_card.owner
+      aim_cards[player].target
     end
   end
 
