@@ -76,7 +76,7 @@ class Game
             when :block
               player.energy -= 1
             when :charge
-              target.energy -= 1
+              target.energy -= 1 #(Maybe we need to -2 (because else this is a zero sum turn (+1,-1) ))
           end
         when :charge
           player.energy += 1
