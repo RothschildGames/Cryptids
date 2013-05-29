@@ -1,9 +1,10 @@
 Dir['./player/*.rb'].each {|file| require file }
+Dir['./lib/*.rb'].each {|file| require file }
 require 'observer'
-require './lib/mode'
 require './card'
 require './race'
 require './game'
+require './logger'
 
 NUMBER_OF_PLAYERS = 3
 STARTING_ENERGY = 5
