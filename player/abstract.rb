@@ -22,6 +22,14 @@ module Player
       aim_cards
     end
 
+    def aim_card_for(player)
+      aim_cards.find { |card| card.target == player }
+    end
+
+    def action_card_for(action)
+      action_cards.find { |card| card.type == action }
+    end
+
     def create_hand
       ActionCard::TYPES.each do |type|
         action_cards << ActionCard.new(self, type)

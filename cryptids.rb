@@ -50,8 +50,7 @@ def run_multiple_games(games = 1000)
 
   puts "Played #{games} games with #{NUMBER_OF_PLAYERS} players"
   puts "Game ended at turn #{average_turn} averagely"
-  puts "Games mostly ended with a #{win_type.mode} (#{win_type.percent_of(win_type.mode)})"
-  puts "Then with #{win_type.mode_array[-2]} (#{win_type.percent_of(win_type.mode_array[-2])})"
+  puts "Games mostly ended with a #{win_type.mode} (#{win_type.percent_of(win_type.mode)}%), then with #{win_type.mode_array[-2]} (#{win_type.percent_of(win_type.mode_array[-2])}%)"
   puts "Victory count by players: #{victories.sort.to_s}"
 end
 
