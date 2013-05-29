@@ -7,12 +7,12 @@ module Player
 
     def choose_aim
       threat = biggest_threat
-      if !threat.nil?
+      if threat.present?
         return aim_cards.find { |card| card.target == threat }
       end
 
       weakling = can_be_killed
-      if !weakling.nil?
+      if weakling.present?
         return aim_cards.find { |card| card.target == weakling }
       end
 
@@ -22,7 +22,7 @@ module Player
     def choose_action
       if in_danger?
         action = :block
-      elsif !biggest_threat.nil? || !can_be_killed.nil?
+      elsif biggest_threat.present? || can_be_killed.present?
         action = :block
       else
         action = :charge
