@@ -60,6 +60,10 @@ module Player
       game.players.delete(self)
     end
 
+    def name
+      "#{self.class.name} #{@name}"
+    end
+
     def to_s
       "#@name (#@energy)"
     end
