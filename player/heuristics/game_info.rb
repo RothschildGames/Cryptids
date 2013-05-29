@@ -9,12 +9,12 @@ module Player
         end
       end
 
-      def strongest_player
-        map_opponents_by_energy.max_by {|_,v| v}.first
+      def strongest_players
+        map_opponents_by_energy.keys_with_maximum_value
       end
 
-      def weakest_player
-        map_opponents_by_energy.min_by {|_,v| v}.first
+      def weakest_players
+        map_opponents_by_energy.keys_with_maximum_value
       end
 
     end

@@ -16,7 +16,7 @@ def run_single_game
   GameLogger.new(game) if SHOULD_LOG
 
   NUMBER_OF_PLAYERS.times do |t|
-    game.add_player Player::Random.new("Player #{t}")
+    game.add_player Player::Basic.new("Player #{t}")
   end
   game.start_game
 

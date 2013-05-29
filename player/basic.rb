@@ -2,12 +2,12 @@ module Player
   class Basic < Abstract
 
     def choose_aim
-      threat = strongest_player
+      threat = strongest_players.sample
       if threat.present?
         return aim_card_for(threat)
       end
 
-      weakling = weakest_player
+      weakling = weakest_players.sample
       if weakling.present?
         return aim_card_for(weakling)
       end
@@ -18,7 +18,7 @@ module Player
     def choose_action
       if in_danger?
         action = :block
-      elsif strongest_player.present? || weakest_players.present?
+      elsif strongest_players.sample.present? || weakest_playerss.sample.present?
         action = :block
       else
         action = :charge
