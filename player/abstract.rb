@@ -1,5 +1,9 @@
+require_relative './heuristics/game_info'
+
 module Player
   class Player::Abstract
+
+    include Player::Heuristics::GameInfo
     attr_accessor :energy, :race, :game, :aim_cards, :action_cards, :name
 
     def initialize(name, race = nil)
