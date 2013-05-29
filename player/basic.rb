@@ -32,9 +32,5 @@ module Player
 
     private
 
-    def in_danger?
-      @energy < 2
-    end
-
   end
 end

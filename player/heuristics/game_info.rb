@@ -17,6 +17,10 @@ module Player
         map_opponents_by_energy.keys_with_maximum_value
       end
 
+      def targeted_count
+        game.aim_cards.values.count { |player| player == self }
+      end
+
     end
   end
 end
