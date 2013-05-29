@@ -6,7 +6,7 @@ require './race'
 require './game'
 require './logger'
 
-NUMBER_OF_PLAYERS = 3
+NUMBER_OF_PLAYERS = 4
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
 SHOULD_LOG = false
@@ -15,9 +15,11 @@ def run_single_game
   game = Game.new(STARTING_ENERGY, WINNING_ENERGY)
   GameLogger.new(game) if SHOULD_LOG
 
-  NUMBER_OF_PLAYERS.times do |t|
-    game.add_player Player::Basic.new(t)
+  game.add_player Player::Basic.new('Test')
+  (NUMBER_OF_PLAYERS - 1).times do |t|
+    game.add_player Player::Random.new(t + 1)
   end
+
   game.start_game
 
   while not game.game_ended? do
