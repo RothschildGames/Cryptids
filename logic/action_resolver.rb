@@ -3,6 +3,9 @@ class ActionResolver
   attr_accessor :player, :result
 
   class Result < Struct.new(:player, :target)
+    def ===(other)
+      player == other[0] && target == other[1]
+    end
 
   end
 

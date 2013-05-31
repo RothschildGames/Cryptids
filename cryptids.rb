@@ -100,6 +100,3 @@ def run_multiple_options_games
     end
   end
 end
-
-#run_multiple_options_games
-run_single_game(:should_log => true)
