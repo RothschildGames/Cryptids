@@ -5,7 +5,7 @@
 * Loch Ness
 * El Chupacabra
 * Yeti (Monkey Business expansion)
-* Karaken
+* Karaken`
 * _First Tier_
 * Mothman
 * Merman

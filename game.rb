@@ -67,22 +67,40 @@ class Game
 
       notify(:player_action, :player => player, :action => action, :target => target)
 
-      case action
-        when :attack
-          case target_action
-            when :attack
-              target.energy -= 1
-              player.energy -= 1
-            when :block
-              player.energy -= 1
-            when :charge
-              unless targeted_to_attack.include? player
-                target.energy -= 1 #(Maybe we need to -2 (because else this is a zero sum turn (+1,-1) ))
-              end
+      aiming_at_me = aim_cards[target].target == player
+
+      resolve_action(action, target_action, aiming_at_me, player, target)
+    end
+  end
+
+  def resolve_action(action, target_action, aiming_at_me, player, target)
+    player_energy = 0
+    target_energy = 0
+
+    case action
+      when :attack
+        case target_action
+          when :attack
+            player.energy -= 1 if aiming_at_me
+            target.energy -= 1
+          when :block
+            player.energy -= 1
+            player.energy -= 1 if aiming_at_me
+          when :charge
+            unless targeted_to_attack.include? player
+              target.energy -= 1 #(Maybe we need to -2 (because else this is a zero sum turn (+1,-1) ))
+            end
+        end
+      when :charge
+        if target_action == :charge
+          if aiming_at_me
+            player.energy += 0
+          else
+            player.energy += 2
           end
-        when :charge
+        else
           player.energy += 1
-      end
+        end
     end
   end
 
@@ -121,9 +139,9 @@ class Game
   end
 
   def win_type
-    return :victory_points if players.count > 1
-    return :last_man_standing if players.count == 1
-    :no_winner
+    return :VP if players.count > 1
+    return :LMS if players.count == 1
+    :NO
   end
 
 end
