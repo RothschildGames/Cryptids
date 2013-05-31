@@ -61,53 +61,10 @@ class Game
 
   def resolve_actions
     players.each do |player|
-      target = aim_cards[player].target
-      target_action = action_cards[target].type
-      action = action_cards[player].type
-
-      notify(:player_action, :player => player, :action => action, :target => target)
-
-      aiming_at_me = aim_cards[target].target == player
-
-      resolve_action(action, target_action, aiming_at_me, player, target)
-    end
-  end
-
-  def resolve_action(action, target_action, aiming_at_me, player, target)
-    player_energy = 0
-    target_energy = 0
-
-    case action
-      when :attack
-        case target_action
-          when :attack
-            player.energy -= 1 if aiming_at_me
-            target.energy -= 1
-          when :block
-            player.energy -= 1
-            player.energy -= 1 if aiming_at_me
-          when :charge
-            unless targeted_to_attack.include? player
-              target.energy -= 1 #(Maybe we need to -2 (because else this is a zero sum turn (+1,-1) ))
-            end
-        end
-      when :charge
-        if target_action == :charge
-          if aiming_at_me
-            player.energy += 0
-          else
-            player.energy += 2
-          end
-        else
-          player.energy += 1
-        end
-    end
-  end
-
-  def targeted_to_attack
-    action_cards.values.select(&:attack?).map do |action_card|
-      player = action_card.owner
-      aim_cards[player].target
+      notify(:player_action, :player => player, :action => player.action, :target => player.target)
+      result = ActionResolver.new(player).resolve
+      player.energy += result.player
+      player.target.energy += result.target
     end
   end
 

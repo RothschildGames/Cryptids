@@ -5,14 +5,14 @@ module Player
     end
 
     def action
-      game.action_cards[self].action
+      game.action_cards[self].type
     end
 
     def aiming_at_me
       game.aim_cards.select {
-          |aim_card| aim_card.target == self
-      }.map{
-        |aim_card| aim_card.owner
+          |_, aim_card| aim_card.target == self
+      }.map {
+        |_, aim_card| aim_card.owner
       }
     end
 
