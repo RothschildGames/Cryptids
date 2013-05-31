@@ -60,11 +60,9 @@ class Game
   end
 
   def resolve_actions
-    players.each do |player|
-      notify(:player_action, :player => player, :action => player.action, :target => player.target)
-      result = ActionResolver.new(player).resolve
-      player.energy += result.player
-      player.target.energy += result.target
+    result = GameResolver.new(self).resolve
+    result.each do |player, energy_delta|
+      player.energy += energy_delta
     end
   end
 

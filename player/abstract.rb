@@ -67,7 +67,7 @@ module Player
     end
 
     def to_s
-      "Player #@name (#@energy)"
+      "#{name} (#@energy)"
     end
 
     def actions_other_than(action)
