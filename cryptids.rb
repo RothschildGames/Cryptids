@@ -19,10 +19,9 @@ def run_single_game(options = {})
 
   GameLogger.new(game) if options[:should_log]
 
-  #game.add_player Player::Basic.new('Test')
-  game.add_player Player::Random.new(1)
+  game.add_player Player::Basic.new(1)
   (options[:number_of_players] - 1).times do |t|
-    game.add_player Player::Random.new(t + 2)
+    game.add_player Player::Basic.new(t + 2)
   end
 
   game.start_game
