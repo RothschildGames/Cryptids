@@ -1,16 +1,13 @@
+require 'observer'
 Dir['./player/*.rb'].each {|file| require file }
 Dir['./logic/*.rb'].each {|file| require file }
 Dir['./lib/*.rb'].each {|file| require file }
-require 'observer'
-require './card'
-require './race'
-require './game'
 require './logger'
 
 NUMBER_OF_PLAYERS = 4
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
-NUMBER_OF_GAMES = 10000
+NUMBER_OF_GAMES = 5000
 SHOULD_LOG = false
 
 def run_single_game(options = {})
