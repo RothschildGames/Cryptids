@@ -34,12 +34,7 @@ module Player
         }
       end
 
-      def roll_key_by_weights(hash)
-        weights = hash.weights
-        roll = rand(0...weights.max_value)
 
-
-      end
 
     end
   end

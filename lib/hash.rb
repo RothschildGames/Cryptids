@@ -4,10 +4,6 @@ class Hash
     select{|_, v| v == max_value}.keys
   end
 
-  def max_value
-    values.max
-  end
-
   def weights
     last_weight = 0
     self.inject({}) do |hash, (k,v)|
@@ -15,6 +11,13 @@ class Hash
       last_weight = hash[k].last
       hash
     end
+  end
+
+  def roll_by_weights
+    weights = self.weights
+    max_value = weights.values.map(&:last).max
+    roll = rand(0...max_value)
+    weights.find { |_, v| v.cover? roll }.first
   end
 
 end
