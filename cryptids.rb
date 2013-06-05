@@ -10,7 +10,7 @@ require './logger'
 NUMBER_OF_PLAYERS = 3
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
-NUMBER_OF_GAMES = 2500
+NUMBER_OF_GAMES = 10000
 SHOULD_LOG = false
 
 def run_single_game(options = {})
@@ -61,6 +61,7 @@ def run_multiple_games
   puts "Played #{games.length} games with #{NUMBER_OF_PLAYERS} players"
   puts "Game ended at turn #{average_turn} averagely"
   puts "Games mostly ended with a #{win_type.mode} (#{win_type.percent_of(win_type.mode)}%), then with #{win_type.mode_array[-2]} (#{win_type.percent_of(win_type.mode_array[-2])}%)"
+  puts "Games ended with a draw: #{win_type.percent_of(win_type.mode_array[-3])}%"
   puts 'Victory count by players:'
   victories.sort.each do |victories|
     puts "\t#{victories[0]}\t#{victories[1]*100.0/games.length}% (#{victories[1]})"
