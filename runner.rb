@@ -12,6 +12,6 @@ case ARGV[0]
   else
     puts 'OPTIONS:'
     puts '[s]ingle - run a single game'
-    puts '[m]ulti - run 1000 games'
+    puts '[m]ulti - run multiple games'
     puts '[o]ptions - run a multivariant test of 1000 games each'
 end

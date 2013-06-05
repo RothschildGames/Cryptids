@@ -42,7 +42,7 @@ class Game
   end
 
   def choose_cards
-    players.each do |player|
+    players.shuffle.each do |player|
       aim_cards[player] = player.choose_aim
       action_cards[player] = player.choose_action
     end
@@ -53,7 +53,7 @@ class Game
   end
 
   def change_actions
-    players.each do |player|
+    players.shuffle.each do |player|
       new_action = player.choose_another_action(action_cards[player])
       action_cards[player] = new_action if new_action != :do_nothing
     end
@@ -68,14 +68,16 @@ class Game
 
   def resolve_end_turn
     winners = []
-    players.each do |player|
+    players_temp = players.dup
+    players_temp.each do |player|
       player.die if player.dead?
     end
     players.each do |player|
       winners << player if player.energy >= @winning_energy
     end
+
+    game_over(players) and return if players.length <= 1
     game_over(winners) unless winners.empty?
-    game_over(players) if players.length <= 1
   end
 
   def game_over(winners)

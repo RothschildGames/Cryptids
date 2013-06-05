@@ -71,7 +71,9 @@ module Player
     end
 
     def actions_other_than(action)
-      (action_cards.reject { |card| card == action } << :do_nothing)
+      actions = action_cards.reject { |card| card == action }
+      actions << :do_nothing if @energy > 1
+      actions
     end
 
   end
