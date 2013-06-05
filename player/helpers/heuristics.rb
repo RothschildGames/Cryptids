@@ -34,6 +34,16 @@ module Player
         }
       end
 
+      def build_proper_weights_hash(hash)
+
+
+        end
+      end
+
+      def roll_key_by_weights(hash)
+
+      end
+
     end
   end
 end
