@@ -54,7 +54,7 @@ class Game
 
   def change_actions
     players.shuffle.each do |player|
-      new_action = player.choose_another_action(action_cards[player])
+      new_action = player.choose_another_action(action_cards[player].type)
       action_cards[player] = new_action if new_action != :do_nothing
     end
   end

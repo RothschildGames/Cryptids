@@ -1,11 +1,11 @@
-require_relative './heuristics/game_info'
-require_relative './helpers'
+require_relative './helpers/heuristics'
+require_relative './helpers/utils'
 
 module Player
   class Player::Abstract
 
-    include Player::Heuristics::GameInfo
-    include Player::Helpers
+    include Player::Helpers::Heuristics
+    include Player::Helpers::Utils
     attr_accessor :energy, :race, :game, :aim_cards, :action_cards, :name
 
     def initialize(name, race = nil)
@@ -33,6 +33,7 @@ module Player
     end
 
     def action_card_for(action)
+      return action if action == :do_nothing
       action_cards.find { |card| card.type == action }
     end
 
@@ -70,9 +71,9 @@ module Player
       "#{name} (#@energy)"
     end
 
-    def actions_other_than(action)
-      actions = action_cards.reject { |card| card == action }
-      #actions << :do_nothing if @energy > 1
+    def actions_other_than(an_action)
+      actions = ActionCard::TYPES.dup.reject { |action| action == an_action }
+      actions << :do_nothing if @energy > 1
       actions
     end
 

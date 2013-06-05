@@ -7,7 +7,7 @@ require './race'
 require './game'
 require './logger'
 
-NUMBER_OF_PLAYERS = 3
+NUMBER_OF_PLAYERS = 4
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
 NUMBER_OF_GAMES = 10000
@@ -20,7 +20,7 @@ def run_single_game(options = {})
   GameLogger.new(game) if options[:should_log]
 
   (options[:number_of_players]).times do |t|
-    game.add_player Player::Random.new(t + 1)
+    game.add_player Player::Basic.new(t + 1)
   end
 
   game.start_game

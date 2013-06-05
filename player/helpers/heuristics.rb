@@ -1,6 +1,6 @@
 module Player
-  module Heuristics
-    module GameInfo
+  module Helpers
+    module Heuristics
 
       def map_opponents_by_energy
         opponents.inject({}) do |hash, player|
@@ -19,6 +19,19 @@ module Player
 
       def targeted_count
         game.aim_cards.values.count { |player| player == self }
+      end
+
+      def attacked_by_many?
+        targeted_count >= (game.players.length / 2).ceil
+      end
+
+      def action_weights_hash
+        {
+            :attack => 0,
+            :block  => 0,
+            :charge => 0,
+            :do_nothing => 0
+        }
       end
 
     end
