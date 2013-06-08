@@ -2,7 +2,6 @@ require 'observer'
 Dir['./player/*.rb'].each {|file| require file }
 Dir['./logic/*.rb'].each {|file| require file }
 Dir['./lib/*.rb'].each {|file| require file }
-require './logger'
 
 NUMBER_OF_PLAYERS = 4
 STARTING_ENERGY = 5
