@@ -7,10 +7,10 @@ class GameLogger
   def update(event, data)
     case event
       when :game_start
-        puts "-- NEW GAME --"
+        puts "=============== NEW GAME ==============="
 
       when :turn_start
-        puts "--- TURN #{data[:turn]} ---"
+        puts "---------------- TURN #{data[:turn]} ----------------"
         puts "Blind at: #{data[:blind]}"
 
       when :player_action
@@ -24,7 +24,7 @@ class GameLogger
         end
 
       when :player_lost
-        puts "#{data[:player]} was defeated"
+        puts "#{data[:player]} dies"
 
       when :game_end
         puts "-- GAME END --"

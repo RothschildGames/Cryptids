@@ -81,10 +81,13 @@ class Game
       winners << player if player.energy >= @winning_energy
     end
 
-    game_over(players) and return if players.length <= 1
-    game_over(winners) and return unless winners.empty?
-
-    rotate_blind(players_temp)
+    if players.length <= 1
+      game_over(players)
+    elsif not winners.empty?
+      game_over(winners)
+    else
+      rotate_blind(players_temp)
+    end
   end
 
   def game_over(winners)
@@ -97,12 +100,13 @@ class Game
     @game_over_flag
   end
 
-  def rotate_blind(players)
+  def rotate_blind(all_players)
     begin
-      index = players.index(@blind)
-      index = if index == (@player.length - 1) then 0 else (index + 1) end
-      player = @players.index
-    end while not player.dead?
+      index = all_players.index(@blind)
+      index = if index >= (@players.length - 1) then 0 else (index + 1) end
+      player = @players[index]
+    end while player.dead?
+    @blind = player
   end
 
   def notify(event, data = nil)
