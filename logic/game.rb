@@ -82,7 +82,9 @@ class Game
     end
 
     game_over(players) and return if players.length <= 1
-    game_over(winners) unless winners.empty?
+    game_over(winners) and return unless winners.empty?
+
+    rotate_blind(players_temp)
   end
 
   def game_over(winners)
@@ -93,6 +95,14 @@ class Game
 
   def game_ended?
     @game_over_flag
+  end
+
+  def rotate_blind(players)
+    begin
+      index = players.index(@blind)
+      index = if index == (@player.length - 1) then 0 else (index + 1) end
+      player = @players.index
+    end while not player.dead?
   end
 
   def notify(event, data = nil)
