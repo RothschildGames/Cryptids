@@ -66,6 +66,7 @@ class Game
   end
 
   def resolve_actions
+    notify(:resolving_actions)
     result = GameResolver.new(self).resolve
     result.each do |player, energy_delta|
       player.energy += energy_delta

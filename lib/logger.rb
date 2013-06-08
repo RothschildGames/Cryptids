@@ -13,14 +13,17 @@ class GameLogger
         puts "---------------- TURN #{data[:turn]} ----------------"
         puts "Blind at: #{data[:blind]}"
 
+      when :resolving_actions
+        puts "Actions:"
+
       when :player_action
         case data[:action]
           when :attack
-            puts "#{data[:player]} attacks #{data[:target]}"
+            puts "  #{data[:player]} attacks #{data[:target]}"
           when :block
-            puts "#{data[:player]} defends"
+            puts "  #{data[:player]} defends"
           when :charge
-            puts "#{data[:player]} charges (#{data[:player].energy + 1})"
+            puts "  #{data[:player]} charges (#{data[:player].energy + 1})"
         end
 
       when :player_lost
