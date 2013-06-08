@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require './cryptids'
+require './runner/methods'
 
 case ARGV[0]
   when /o(ptions)?/
