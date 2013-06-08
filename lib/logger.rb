@@ -11,6 +11,7 @@ class GameLogger
 
       when :turn_start
         puts "--- TURN #{data[:turn]} ---"
+        puts "Blind at: #{data[:blind]}"
 
       when :player_action
         case data[:action]
@@ -22,16 +23,17 @@ class GameLogger
             puts "#{data[:player]} charges (#{data[:player].energy + 1})"
         end
 
+      when :player_lost
+        puts "#{data[:player]} was defeated"
+
       when :game_end
         puts "-- GAME END --"
         if data[:winners].empty?
           puts "Nobody won"
         else
           puts "Victory for: #{data[:winners].map(&:name).join(',')}"
+        end
         puts "\n"
     end
-    end
-
   end
-
 end

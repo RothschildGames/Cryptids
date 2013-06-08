@@ -6,6 +6,7 @@ class Game
   def initialize(starting_energy, winning_energy)
     @players = []
     @turn_num = 0
+    @blind = 0
     @starting_energy = starting_energy
     @winning_energy = winning_energy
     @game_over_flag = false
@@ -22,6 +23,7 @@ class Game
 
   def start_game
     @players.each(&:create_hand)
+    @blind = @players.sample
     notify(:game_start)
   end
 
@@ -38,7 +40,7 @@ class Game
     @turn_num += 1
     aim_cards.clear
     action_cards.clear
-    notify(:turn_start, :turn => @turn_num)
+    notify(:turn_start, :turn => @turn_num, :blind => @blind)
   end
 
   def choose_cards
@@ -70,7 +72,10 @@ class Game
     winners = []
     players_temp = players.dup
     players_temp.each do |player|
-      player.die if player.dead?
+      if player.dead?
+        player.die
+        notify(:player_lost, :player => player)
+      end
     end
     players.each do |player|
       winners << player if player.energy >= @winning_energy
