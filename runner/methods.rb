@@ -7,7 +7,7 @@ Dir['./lib/*.rb'].each {|file| require file }
 NUMBER_OF_PLAYERS = 4
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
-NUMBER_OF_GAMES = 10000
+NUMBER_OF_GAMES = 500
 SHOULD_LOG = false
 
 def run_single_game(options = {})
@@ -69,11 +69,11 @@ end
 
 
 def run_powers_balance_test
-  combinations = Power.all_powers.combination(NUMBER_OF_PLAYERS).to_a
-  powers_hash = Power.all_powers.inject({}) { |hash, power| hash[power] = 0; hash }
-
+  all_powers = Power.all_powers
+  combinations = all_powers.combination(NUMBER_OF_PLAYERS).to_a
   combinations.each do |combination|
 
+    powers_hash = all_powers.inject({}) { |hash, power| hash[power.new.name] = 0.0; hash }
     winners = []
     games = run_multiple_game_for_options(:powers => combination.map { |power| [power.new]} )
 
@@ -82,8 +82,18 @@ def run_powers_balance_test
     end
     winners.flatten!
     winning_powers = winners.map(&:powers).flatten!.map(&:name)
-    puts winning_powers
-    puts ''
+
+    winning_powers.each do |power|
+      powers_hash[power] += 1 / NUMBER_OF_GAMES.to_f
+    end
+
+    excluded_powers = all_powers - combination
+    excluded_powers.each do |power|
+      powers_hash[power] = '-'
+    end
+
+    puts powers_hash
+
   end
 end
 
