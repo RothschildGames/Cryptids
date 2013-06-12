@@ -6,7 +6,7 @@ class Satellite < Power
     @phase = :change
   end
 
-  def run
+  def run(data)
 
   end
 

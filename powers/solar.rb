@@ -6,7 +6,7 @@ class SolarPowered < Power
     @phase = :end_of_turn
   end
 
-  def run
+  def run(data)
     if game.players.map(&:action).count(:charge) == 0
       player.energy += 1
     end

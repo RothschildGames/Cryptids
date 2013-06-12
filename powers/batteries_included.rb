@@ -6,7 +6,7 @@ class BatteriesIncluded < Power
     @phase = :start_of_game
   end
 
-  def run
+  def run(data)
     player.energy += 2
   end
 
