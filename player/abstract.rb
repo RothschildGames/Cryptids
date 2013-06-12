@@ -11,6 +11,9 @@ module Player
     def initialize(name, powers = [])
       @name = name
       @powers = powers
+      @powers.each do |power|
+        power.player = self
+      end
       @action_cards = []
     end
 
