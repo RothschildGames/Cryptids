@@ -28,4 +28,8 @@ class Power
 
   end
 
+  def game
+    player.game
+  end
+
 end

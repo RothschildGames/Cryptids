@@ -79,6 +79,7 @@ class Game
   end
 
   def resolve_end_turn
+    phase(:end_of_turn)
     winners = []
     players_temp = players.dup
     players_temp.each do |player|
