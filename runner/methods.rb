@@ -64,7 +64,6 @@ def run_multiple_games
   end
 end
 
-
 def run_multiple_options_games
   2.upto(7) do |number_of_players|
     5.upto(10) do |winning_energy|
@@ -94,4 +93,8 @@ def run_multiple_options_games
       end
     end
   end
+end
+
+def run_powers_balance_test
+
 end
