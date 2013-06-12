@@ -73,13 +73,13 @@ def run_powers_balance_test
   combinations.each do |combination|
 
     winners = []
-    games = run_multiple_game_for_options(:powers => combination)
+    games = run_multiple_game_for_options(:powers => combination.map { |power| [power.new]} )
 
     games.each do |result_game|
       winners << result_game.winners
     end
     winners.flatten!
-    winning_powers = winners.map(&:powers).flatten!
+    winning_powers = winners.map(&:powers).flatten!.map(&:name)
     puts winning_powers
   end
 end

@@ -20,6 +20,10 @@ class Power
     @phase = :first
   end
 
+  def name
+    @name
+  end
+
   def run
 
   end
