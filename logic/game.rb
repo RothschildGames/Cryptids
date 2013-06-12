@@ -25,6 +25,11 @@ class Game
     @players.each(&:create_hand)
     @blind = @players.sample
     notify(:game_start)
+    phase(:start_of_game)
+  end
+
+  def phase(phase)
+    @players.each { |p| p.phase(phase) }
   end
 
   def turn

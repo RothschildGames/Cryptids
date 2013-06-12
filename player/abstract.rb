@@ -58,6 +58,11 @@ module Player
       raise '`choose_another_action` to be implemented by subclass'
     end
 
+    def phase(phase)
+      self.powers.select { |power|
+        power.phase == phase }.each(&:run)
+    end
+
     def dead?
       @energy <= 0
     end
