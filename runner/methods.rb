@@ -1,4 +1,5 @@
 require 'observer'
+require './powers/all.rb'
 Dir['./player/*.rb'].each {|file| require file }
 Dir['./logic/*.rb'].each {|file| require file }
 Dir['./lib/*.rb'].each {|file| require file }
@@ -33,6 +34,10 @@ def run_multiple_game_for_options(options = {})
   options[:number_of_games].times.map { run_single_game(options) }
 end
 
+
+
+
+
 def run_multiple_games
   winners = []
   turns = []
@@ -64,6 +69,19 @@ def run_multiple_games
   end
 end
 
+
+
+
+def run_powers_balance_test
+  combinations = Power.all_powers.combination(NUMBER_OF_PLAYERS).to_a
+  combinations.each do |combination|
+
+  end
+end
+
+
+
+
 def run_multiple_options_games
   2.upto(7) do |number_of_players|
     5.upto(10) do |winning_energy|
@@ -93,8 +111,4 @@ def run_multiple_options_games
       end
     end
   end
-end
-
-def run_powers_balance_test
-
 end
