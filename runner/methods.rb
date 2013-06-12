@@ -7,7 +7,7 @@ Dir['./lib/*.rb'].each {|file| require file }
 NUMBER_OF_PLAYERS = 4
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
-NUMBER_OF_GAMES = 100
+NUMBER_OF_GAMES = 10000
 SHOULD_LOG = false
 
 def run_single_game(options = {})
