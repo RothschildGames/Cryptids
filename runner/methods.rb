@@ -29,13 +29,11 @@ def run_single_game(options = {})
   game
 end
 
+
 def run_multiple_game_for_options(options = {})
   options = {:number_of_games => NUMBER_OF_GAMES}.merge(options)
   options[:number_of_games].times.map { run_single_game(options) }
 end
-
-
-
 
 
 def run_multiple_games
@@ -70,24 +68,21 @@ def run_multiple_games
 end
 
 
-
-
 def run_powers_balance_test
   combinations = Power.all_powers.combination(NUMBER_OF_PLAYERS).to_a
   combinations.each do |combination|
 
-    games = run_multiple_game_for_options
+    winners = []
+    games = run_multiple_game_for_options(:powers => combination)
 
     games.each do |result_game|
       winners << result_game.winners
-      turns << result_game.turn_num
-      win_type << result_game.win_type
     end
-
+    winners.flatten!
+    winning_powers = winners.map(&:powers).flatten!
+    puts winning_powers
   end
 end
-
-
 
 
 def run_multiple_options_games
