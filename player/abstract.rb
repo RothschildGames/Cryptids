@@ -6,11 +6,14 @@ module Player
 
     include Player::Helpers::Heuristics
     include Player::Helpers::Utils
-    attr_accessor :energy, :race, :game, :aim_cards, :action_cards, :name
+    attr_accessor :energy, :powers, :game, :aim_cards, :action_cards, :name
 
-    def initialize(name, race = nil)
+    def initialize(name, powers = [])
       @name = name
-      @race = race
+      @powers = powers
+      @powers.each do |power|
+        power.player = self
+      end
       @action_cards = []
     end
 
