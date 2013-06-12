@@ -3,11 +3,13 @@ class MexicanBystander < Power
   def initialize
     @name = 'Mexican Bystander'
     @description = 'If all the players are attacking this turn, you are immune to damage'
-    @phase = :resolve_action
+    @phase = :after_resolve_action
   end
 
-  def run
-
+  def run(single_player_result)
+    if game.players.map(&:action).all? {|action| action == :attack}
+      single_player_result.modifier = 0 # untouchable
+    end
   end
 
 end

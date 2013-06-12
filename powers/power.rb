@@ -3,15 +3,17 @@ class Power
   attr_accessor :player, :name, :description, :phase
 
   PHASES = [
-        :start_of_game,
-        :start_of_turn,
-        :choose,
-        :aim,
+        :start_of_game, #
+        :start_of_turn, #
+        :choose_cards,  #
+        :show_aim_cards,#
         :change,
-        :action,
-        :resolve,
-        :end_of_turn,
-        :cleanup
+        :end_of_change, #
+        :show_action_cards, #
+        :resolve_action, #
+        :after_resolve_action, #
+        :end_of_turn, #
+        :cleanup #
   ]
 
   def initialize
@@ -20,7 +22,7 @@ class Power
     @phase = :first
   end
 
-  def run
+  def run(data)
 
   end
 
