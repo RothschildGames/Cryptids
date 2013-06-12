@@ -140,4 +140,8 @@ class Game
     :NO
   end
 
+  def duel?
+    @players.count <= 2
+  end
+
 end

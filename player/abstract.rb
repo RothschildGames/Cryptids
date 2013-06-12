@@ -59,6 +59,7 @@ module Player
     end
 
     def phase(phase, data = nil)
+      return data if game.duel?
       self.powers.select { |power|
         power.phase == phase }.each{ |power|
         power.run(data)
