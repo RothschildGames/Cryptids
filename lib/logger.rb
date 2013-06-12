@@ -7,20 +7,27 @@ class GameLogger
   def update(event, data)
     case event
       when :game_start
-        puts "-- NEW GAME --"
+        puts "=============== NEW GAME ==============="
 
       when :turn_start
-        puts "--- TURN #{data[:turn]} ---"
+        puts "---------------- TURN #{data[:turn]} ----------------"
+        puts "Blind at: #{data[:blind]}"
+
+      when :resolving_actions
+        puts "Actions:"
 
       when :player_action
         case data[:action]
           when :attack
-            puts "#{data[:player]} attacks #{data[:target]}"
+            puts "  #{data[:player]} attacks #{data[:target]}"
           when :block
-            puts "#{data[:player]} defends"
+            puts "  #{data[:player]} defends"
           when :charge
-            puts "#{data[:player]} charges (#{data[:player].energy + 1})"
+            puts "  #{data[:player]} charges (#{data[:player].energy + 1})"
         end
+
+      when :player_lost
+        puts "#{data[:player]} dies"
 
       when :game_end
         puts "-- GAME END --"
@@ -28,10 +35,8 @@ class GameLogger
           puts "Nobody won"
         else
           puts "Victory for: #{data[:winners].map(&:name).join(',')}"
+        end
         puts "\n"
     end
-    end
-
   end
-
 end

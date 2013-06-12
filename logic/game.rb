@@ -6,6 +6,7 @@ class Game
   def initialize(starting_energy, winning_energy)
     @players = []
     @turn_num = 0
+    @blind = 0
     @starting_energy = starting_energy
     @winning_energy = winning_energy
     @game_over_flag = false
@@ -22,6 +23,7 @@ class Game
 
   def start_game
     @players.each(&:create_hand)
+    @blind = @players.sample
     notify(:game_start)
   end
 
@@ -38,11 +40,11 @@ class Game
     @turn_num += 1
     aim_cards.clear
     action_cards.clear
-    notify(:turn_start, :turn => @turn_num)
+    notify(:turn_start, :turn => @turn_num, :blind => @blind)
   end
 
   def choose_cards
-    players.each do |player|
+    players.shuffle.each do |player|
       aim_cards[player] = player.choose_aim
       action_cards[player] = player.choose_action
     end
@@ -53,13 +55,18 @@ class Game
   end
 
   def change_actions
-    players.each do |player|
-      new_action = player.choose_another_action(action_cards[player])
+    rotated_players = players.dup
+    while rotated_players.first == @blind do
+      rotated_players = rotated_players.rotate
+    end
+    rotated_players.shuffle.each do |player|
+      new_action = player.choose_another_action(action_cards[player].type)
       action_cards[player] = new_action if new_action != :do_nothing
     end
   end
 
   def resolve_actions
+    notify(:resolving_actions)
     result = GameResolver.new(self).resolve
     result.each do |player, energy_delta|
       player.energy += energy_delta
@@ -68,14 +75,24 @@ class Game
 
   def resolve_end_turn
     winners = []
-    players.each do |player|
-      player.die if player.dead?
+    players_temp = players.dup
+    players_temp.each do |player|
+      if player.dead?
+        player.die
+        notify(:player_lost, :player => player)
+      end
     end
     players.each do |player|
       winners << player if player.energy >= @winning_energy
     end
-    game_over(winners) unless winners.empty?
-    game_over(players) if players.length <= 1
+
+    if players.length <= 1
+      game_over(players)
+    elsif not winners.empty?
+      game_over(winners)
+    else
+      rotate_blind(players_temp)
+    end
   end
 
   def game_over(winners)
@@ -86,6 +103,15 @@ class Game
 
   def game_ended?
     @game_over_flag
+  end
+
+  def rotate_blind(all_players)
+    begin
+      index = all_players.index(@blind)
+      index = if index >= (@players.length - 1) then 0 else (index + 1) end
+      player = @players[index]
+    end while player.dead?
+    @blind = player
   end
 
   def notify(event, data = nil)

@@ -1,16 +1,12 @@
+require 'observer'
 Dir['./player/*.rb'].each {|file| require file }
 Dir['./logic/*.rb'].each {|file| require file }
 Dir['./lib/*.rb'].each {|file| require file }
-require 'observer'
-require './card'
-require './race'
-require './game'
-require './logger'
 
-NUMBER_OF_PLAYERS = 3
+NUMBER_OF_PLAYERS = 4
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
-NUMBER_OF_GAMES = 10000
+NUMBER_OF_GAMES = 5000
 SHOULD_LOG = false
 
 def run_single_game(options = {})
@@ -19,9 +15,8 @@ def run_single_game(options = {})
 
   GameLogger.new(game) if options[:should_log]
 
-  game.add_player Player::Basic.new(1)
-  (options[:number_of_players] - 1).times do |t|
-    game.add_player Player::Basic.new(t + 2)
+  (options[:number_of_players]).times do |t|
+    game.add_player Player::Basic.new(t + 1)
   end
 
   game.start_game
@@ -62,6 +57,7 @@ def run_multiple_games
   puts "Played #{games.length} games with #{NUMBER_OF_PLAYERS} players"
   puts "Game ended at turn #{average_turn} averagely"
   puts "Games mostly ended with a #{win_type.mode} (#{win_type.percent_of(win_type.mode)}%), then with #{win_type.mode_array[-2]} (#{win_type.percent_of(win_type.mode_array[-2])}%)"
+  puts "Games ended with a draw: #{win_type.percent_of(win_type.mode_array[-3])}%"
   puts 'Victory count by players:'
   victories.sort.each do |victories|
     puts "\t#{victories[0]}\t#{victories[1]*100.0/games.length}% (#{victories[1]})"

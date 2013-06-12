@@ -10,7 +10,7 @@ module Player
     end
 
     def choose_another_action(excluded_action)
-      actions_other_than(excluded_action).sample
+      action_card_for(actions_other_than(excluded_action).sample)
     end
 
   end
