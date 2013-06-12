@@ -7,7 +7,7 @@ Dir['./lib/*.rb'].each {|file| require file }
 NUMBER_OF_PLAYERS = 4
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
-NUMBER_OF_GAMES = 500
+NUMBER_OF_GAMES = 100
 SHOULD_LOG = false
 
 def run_single_game(options = {})
@@ -21,11 +21,9 @@ def run_single_game(options = {})
   end
 
   game.start_game
-
   while not game.game_ended? do
     game.turn
   end
-
   game
 end
 
@@ -90,7 +88,7 @@ def run_powers_balance_test
 
     excluded_powers = all_powers - combination
     excluded_powers.each do |power|
-      powers_hash[power] = '-'
+      powers_hash[power.new.name] = '-'
     end
 
     puts powers_hash.values.map { |value| if value == '-' then '-' else "#{'%0.2f' % (value * 100)}%" end }.join("\t")
