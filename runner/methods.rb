@@ -81,6 +81,7 @@ def run_powers_balance_test
     winners.flatten!
     winning_powers = winners.map(&:powers).flatten!.map(&:name)
     puts winning_powers
+    puts ''
   end
 end
 
