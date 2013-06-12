@@ -46,6 +46,7 @@ class Game
     aim_cards.clear
     action_cards.clear
     notify(:turn_start, :turn => @turn_num, :blind => @blind)
+    phase(:start_of_turn)
   end
 
   def choose_cards
@@ -53,10 +54,12 @@ class Game
       aim_cards[player] = player.choose_aim
       action_cards[player] = player.choose_action
     end
+    phase(:choose_cards)
   end
 
   def show_aim_cards
     aim_cards.values.each(&:face_up!)
+    phase(:show_aim_cards)
   end
 
   def change_actions
@@ -64,14 +67,19 @@ class Game
     while rotated_players.first == @blind do
       rotated_players = rotated_players.rotate
     end
-    rotated_players.shuffle.each do |player|
+    rotated_players.each do |player|
       new_action = player.choose_another_action(action_cards[player].type)
-      action_cards[player] = new_action if new_action != :do_nothing
+      if new_action != :do_nothing
+        player.energy -= 1
+        action_cards[player] = new_action
+      end
     end
+    phase(:end_of_change)
   end
 
   def resolve_actions
     notify(:resolving_actions)
+    phase(:show_action_cards)
     result = GameResolver.new(self).resolve
     result.each do |player, energy_delta|
       player.energy += energy_delta
@@ -99,6 +107,7 @@ class Game
     else
       rotate_blind(players_temp)
     end
+    phase(:cleanup)
   end
 
   def game_over(winners)

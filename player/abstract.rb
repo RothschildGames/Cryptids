@@ -58,9 +58,12 @@ module Player
       raise '`choose_another_action` to be implemented by subclass'
     end
 
-    def phase(phase)
+    def phase(phase, data = nil)
       self.powers.select { |power|
-        power.phase == phase }.each(&:run)
+        power.phase == phase }.each{ |power|
+        power.run(data)
+      }
+      data
     end
 
     def dead?
@@ -80,8 +83,13 @@ module Player
     end
 
     def actions_other_than(an_action)
+      if @energy <= 2
+        return [:do_nothing]
+      end
       actions = ActionCard::TYPES.dup.reject { |action| action == an_action }
-      actions << :do_nothing if @energy > 1
+      (actions.count * 4).times do
+        actions << :do_nothing
+      end
       actions
     end
 

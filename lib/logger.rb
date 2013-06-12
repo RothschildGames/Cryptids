@@ -19,11 +19,11 @@ class GameLogger
       when :player_action
         case data[:action]
           when :attack
-            puts "  #{data[:player]} attacks #{data[:target]}"
+            puts "  #{data[:player]}\t\tattacks\t\t@{#{data[:target]}}"
           when :block
-            puts "  #{data[:player]} defends"
+            puts "  #{data[:player]}\t\tdefends\t\t@{#{data[:target]}}"
           when :charge
-            puts "  #{data[:player]} charges (#{data[:player].energy + 1})"
+            puts "  #{data[:player]}\t\tcharges\t\t@{#{data[:target]}}"
         end
 
       when :player_lost
