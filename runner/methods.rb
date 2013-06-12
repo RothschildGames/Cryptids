@@ -70,6 +70,8 @@ end
 
 def run_powers_balance_test
   combinations = Power.all_powers.combination(NUMBER_OF_PLAYERS).to_a
+  powers_hash = Power.all_powers.inject({}) { |hash, power| hash[power] = 0; hash }
+
   combinations.each do |combination|
 
     winners = []
