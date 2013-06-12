@@ -71,6 +71,7 @@ end
 def run_powers_balance_test
   all_powers = Power.all_powers
   combinations = all_powers.combination(NUMBER_OF_PLAYERS).to_a
+  puts all_powers.map { |power| power.new.name }.join("\t")
   combinations.each do |combination|
 
     powers_hash = all_powers.inject({}) { |hash, power| hash[power.new.name] = 0.0; hash }
@@ -92,7 +93,7 @@ def run_powers_balance_test
       powers_hash[power] = '-'
     end
 
-    puts powers_hash
+    puts powers_hash.values.map { |value| if value == '-' then '-' else "#{'%0.2f' % (value * 100)}%" end }.join("\t")
 
   end
 end
