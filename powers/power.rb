@@ -23,7 +23,6 @@ class Power
   end
 
   def run(data)
-
   end
 
   def game
