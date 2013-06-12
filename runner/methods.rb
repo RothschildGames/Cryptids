@@ -7,17 +7,17 @@ Dir['./lib/*.rb'].each {|file| require file }
 NUMBER_OF_PLAYERS = 4
 STARTING_ENERGY = 5
 WINNING_ENERGY = 10
-NUMBER_OF_GAMES = 5000
+NUMBER_OF_GAMES = 10000
 SHOULD_LOG = false
 
 def run_single_game(options = {})
-  options = {:starting_energy => STARTING_ENERGY, :winning_energy => WINNING_ENERGY, :number_of_players => NUMBER_OF_PLAYERS, :should_log => SHOULD_LOG}.merge(options)
+  options = {:powers => [], :starting_energy => STARTING_ENERGY, :winning_energy => WINNING_ENERGY, :number_of_players => NUMBER_OF_PLAYERS, :should_log => SHOULD_LOG}.merge(options)
   game = Game.new(options[:starting_energy], options[:winning_energy])
 
   GameLogger.new(game) if options[:should_log]
 
   (options[:number_of_players]).times do |t|
-    game.add_player Player::Basic.new(t + 1)
+    game.add_player Player::Basic.new(t + 1, options[:powers][t] || [])
   end
 
   game.start_game
@@ -29,13 +29,11 @@ def run_single_game(options = {})
   game
 end
 
+
 def run_multiple_game_for_options(options = {})
   options = {:number_of_games => NUMBER_OF_GAMES}.merge(options)
   options[:number_of_games].times.map { run_single_game(options) }
 end
-
-
-
 
 
 def run_multiple_games
@@ -70,16 +68,21 @@ def run_multiple_games
 end
 
 
-
-
 def run_powers_balance_test
   combinations = Power.all_powers.combination(NUMBER_OF_PLAYERS).to_a
   combinations.each do |combination|
 
+    winners = []
+    games = run_multiple_game_for_options(:powers => combination)
+
+    games.each do |result_game|
+      winners << result_game.winners
+    end
+    winners.flatten!
+    winning_powers = winners.map(&:powers).flatten!
+    puts winning_powers
   end
 end
-
-
 
 
 def run_multiple_options_games
