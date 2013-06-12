@@ -7,7 +7,9 @@ class SolarPowered < Power
   end
 
   def run
-
+    if game.players.map(&:action).count(:charge) == 0
+      player.energy += 1
+    end
   end
 
 end

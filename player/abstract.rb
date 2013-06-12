@@ -72,7 +72,7 @@ module Player
     end
 
     def name
-      "#{self.class.name} #{@name}"
+      "#{self.class.name} #{@name} <#{powers.map(&:name).join(',')}>"
     end
 
     def to_s
