@@ -11,10 +11,13 @@ case ARGV[0]
     run_single_game(:should_log => true)
   when /p(owers)?/
     run_powers_balance_test
+  when /d(umb)?/
+    run_single_minded_test
   else
     puts 'OPTIONS:'
     puts '[s]ingle - run a single game'
     puts '[m]ulti - run multiple games'
     puts '[o]ptions - run a multivariant test of 1000 games each'
-    puts '[p]powers - run a power test'
+    puts '[p]owers - run a power test'
+    puts '[d]umb - run a single minded test'
 end

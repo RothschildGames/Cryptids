@@ -57,7 +57,7 @@ class ActionResolver
   end
 
   def resolve_block
-
+    result.player -= 1 unless anyone_attacking_me?
   end
 
   def target_aiming_at_me

@@ -88,7 +88,7 @@ module Player
         return [:do_nothing]
       end
       actions = ActionCard::TYPES.dup.reject { |action| action == an_action }
-      (actions.count * 4).times do
+      (actions.count * 5).times do
         actions << :do_nothing
       end
       actions

@@ -19,6 +19,9 @@ def run_single_game(options = {})
   (options[:number_of_players]).times do |t|
     game.add_player Player::Basic.new(t + 1, options[:powers][t] || [])
   end
+  if (action = options[:single_minded_player])
+    game.add_player Player::SingleMinded.new(action, action)
+  end
 
   game.start_game
   while not game.game_ended? do
@@ -34,11 +37,11 @@ def run_multiple_game_for_options(options = {})
 end
 
 
-def run_multiple_games
+
+def print_multiple_games(games)
   winners = []
   turns = []
   win_type = []
-  games = run_multiple_game_for_options
 
   games.each do |result_game|
     winners << result_game.winners
@@ -62,6 +65,19 @@ def run_multiple_games
   puts 'Victory count by players:'
   victories.sort.each do |victories|
     puts "\t#{victories[0]}\t#{victories[1]*100.0/games.length}% (#{victories[1]})"
+  end
+end
+
+def run_multiple_games
+  games = run_multiple_game_for_options
+  print_multiple_games games
+end
+
+def run_single_minded_test
+  print_multiple_games  run_multiple_game_for_options
+  ActionCard::TYPES.each do |action|
+    print_multiple_games  run_multiple_game_for_options :single_minded_player => action, :number_of_players => NUMBER_OF_PLAYERS - 1
+    puts "\n\n-------\n\n"
   end
 end
 
