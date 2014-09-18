@@ -59,7 +59,7 @@ def print_multiple_games(games)
   end
 
   puts "Played #{games.length} games with #{NUMBER_OF_PLAYERS} players"
-  puts "Game ended at turn #{average_turn} averagely"
+  puts "Game ended at turn #{average_turn} on average"
   puts "Games mostly ended with a #{win_type.mode} (#{win_type.percent_of(win_type.mode)}%), then with #{win_type.mode_array[-2]} (#{win_type.percent_of(win_type.mode_array[-2])}%)"
   puts "Games ended with a draw: #{win_type.percent_of(win_type.mode_array[-3])}%"
   puts 'Victory count by players:'

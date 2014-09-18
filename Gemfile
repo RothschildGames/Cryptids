@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rspec'
+gem 'hashie'
+
+gem 'rspec', '~> 2.13'
 gem 'guard-rspec'
 gem 'growl'

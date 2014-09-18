@@ -1,10 +1,15 @@
+require 'hashie'
+
 class ActionResolver
 
   attr_accessor :player, :result
 
-  class Result < Struct.new(:player, :target)
+  class Result < Hashie::Dash
+    property :player, default: 0
+    property :target, default: 0
+
     def ===(other)
-      player == other[0] && target == other[1]
+      player == other.player && target == other.target
     end
 
   end
@@ -14,7 +19,7 @@ class ActionResolver
   end
 
   def resolve
-    @result = Result.new(0,0)
+    @result = Result.new
     case player.action
       when :attack
         resolve_attack

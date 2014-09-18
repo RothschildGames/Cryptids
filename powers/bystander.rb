@@ -1,7 +1,7 @@
-class MexicanBystander < Power
+class Bystander < Power
 
   def initialize
-    @name = 'Mexican Bystander'
+    @name = 'Bystander'
     @description = 'If all the players are attacking this turn, you are immune to damage'
     @phase = :after_resolve_action
   end
